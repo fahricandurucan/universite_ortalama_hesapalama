@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:universite_ortalama_hesapalama/constants/AppConstants.dart';
 import 'package:universite_ortalama_hesapalama/dataHelper/LessonCredit.dart';
 import 'package:universite_ortalama_hesapalama/dataHelper/LetterGrades.dart';
+import 'package:universite_ortalama_hesapalama/models/Lesson.dart';
 import 'package:universite_ortalama_hesapalama/widget/ShowAverageWidget.dart';
 
 class AverageCalculationPage extends StatefulWidget {
@@ -16,11 +17,25 @@ class AverageCalculationPage extends StatefulWidget {
 
 class _AverageCalculationPageState extends State<AverageCalculationPage> {
 
+  var textController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
 
   double valueLetter = 4;
   int valueCredit = 6;
+
+  late String lessonName = "";
+
+  List<Lesson> allLesson = [] ;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +59,7 @@ class _AverageCalculationPageState extends State<AverageCalculationPage> {
                             Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
                               child: TextFormField(
+                                controller: textController,
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: AppConstants.mainColor.shade100.withOpacity(0.3),
@@ -72,7 +88,23 @@ class _AverageCalculationPageState extends State<AverageCalculationPage> {
                                 ),
                                 IconButton(
                                   color: AppConstants.mainColor,
-                                    onPressed: (){}, icon:Icon(Icons.arrow_forward_ios_sharp),
+                                  onPressed: (){
+                                    if(textController.text ==""){
+                                      return;
+                                    }
+                                    else{
+                                      setState(() {
+                                        var lesson = Lesson(name: textController.text, letterGrade: valueLetter.toInt(), credit: valueCredit.toInt());
+                                        print("${textController.text} - $valueLetter -  $valueCredit");
+                                        allLesson.add(lesson);
+                                        textController.text ="";
+                                        valueLetter = 4;
+                                        valueCredit = 1;
+                                      });
+                                    }
+
+                                  },
+                                  icon:Icon(Icons.arrow_forward_ios_sharp),
                                 ),
                               ],
                             ),
@@ -83,11 +115,13 @@ class _AverageCalculationPageState extends State<AverageCalculationPage> {
               ),
               Expanded(
                 flex: 1,
-                child: ShowAverageWidget(lesson: 2, average: 2.85),
+                child: ShowAverageWidget(lesson: allLesson.length, average: 2.85),
               ),
             ],
           ),
-          Center(child: Text("LİSTE GELECEK"),)
+          Expanded(
+            child: listOfLessons(),
+          ),
         ],
       )
     );
@@ -134,6 +168,20 @@ class _AverageCalculationPageState extends State<AverageCalculationPage> {
         },
         underline: Container(),
       ),
+    );
+  }
+
+  listOfLessons() {
+    return ListView.builder(
+      itemCount: allLesson.length,
+      itemBuilder: (context, index){
+        var lesson = allLesson[index];
+        return ListTile(
+          leading: CircleAvatar(child: Text("${(lesson.credit*lesson.letterGrade).toInt()}"),),
+          title: Text(lesson.name),
+          subtitle: Text("${lesson.credit} Kredi, Not Değeri ${lesson.letterGrade}"),
+        );
+      },
     );
   }
 }
