@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:universite_ortalama_hesapalama/constants/AppConstants.dart';
 
-class ShowAverageWidget extends StatelessWidget {
+import '../constants/AppConstants.dart';
+import '../models/Lesson.dart';
+
+class ShowAverageWidget extends StatefulWidget {
 
   late int lesson;
+  // late List<Lesson> list;
   late double average;
 
+  // double average = 0;
   ShowAverageWidget({required this.lesson,required this.average});
 
+  @override
+  _ShowAverageWidgetState createState() => _ShowAverageWidgetState();
+}
+
+class _ShowAverageWidgetState extends State<ShowAverageWidget> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // findAverage(widget.list);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +31,27 @@ class ShowAverageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          lesson > 0 ?
-          Text("${lesson} ders girildi",style: TextStyle(fontSize: 16,color: AppConstants.mainColor),)
+          widget.lesson > 0 ?
+          Text("${widget.lesson} ders girildi",style: TextStyle(fontSize: 16,color: AppConstants.mainColor),)
               :
           Text("Ders Seçiniz",style: TextStyle(fontSize: 16,color: AppConstants.mainColor),),
           Padding(
             padding: EdgeInsets.only(top: 4,bottom: 4),
-            child: Text("${average.toStringAsFixed(2)}",style: TextStyle(fontSize: 42,fontWeight: FontWeight.bold,color: AppConstants.mainColor),),
+            child: Text("${widget.average.toStringAsFixed(2)}",style: TextStyle(fontSize: 42,fontWeight: FontWeight.bold,color: AppConstants.mainColor),),
           ),
           Text("Ortalama",style: TextStyle(fontSize: 16,color: AppConstants.mainColor),),
         ],
       ),
     );
   }
+  // void findAverage(List<Lesson> list) {
+  //   double sum = 0;
+  //   for(int i =0;i<list.length-1;i++){
+  //     sum += list[i].credit;
+  //   }
+  //   widget.average = sum/list.length;
+  //   print("averageee" + widget.average.toString());
+  //
+  // }
 }
+
