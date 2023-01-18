@@ -117,18 +117,14 @@ class _AverageCalculationPageState extends State<AverageCalculationPage> {
                                     if(formKey.currentState!.validate()){
                                       formKey.currentState?.save();
                                       setState(() {
-                                        var lesson = Lesson(name: girilenDeger, letterGrade: valueLetter.toInt(), credit: valueCredit.toInt());
+                                        var lesson = Lesson(name: girilenDeger, letterGrade: valueLetter.toDouble(), credit: valueCredit.toInt());
                                         allLesson.add(lesson);
                                         findAverage(allLesson);
-
                                         textController.text ="";
                                         valueLetter = 4;
                                         valueCredit = 1;
                                       });
                                     }
-
-
-
                                   },
                                   icon:Icon(Icons.arrow_forward_ios_sharp),
                                 ),

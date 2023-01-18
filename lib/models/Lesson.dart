@@ -1,7 +1,7 @@
 class Lesson{
   late String name;
   late int credit;
-  late int letterGrade;
+  late double letterGrade;
 
   Lesson({required this.name,required this.letterGrade,required this.credit});
 }
